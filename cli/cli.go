@@ -1,8 +1,7 @@
 package cli
 
-type ExitCode int
 const (
-	Success ExitCode = iota
+	Success = iota
 )
 
 type Cli struct {}
@@ -11,6 +10,6 @@ func New() (*Cli, error) {
 	return &Cli{}, nil
 }
 
-func (c *Cli) Run() ExitCode {
+func (c *Cli) Run() int {
 	return Success
 }
