@@ -32,7 +32,7 @@ func New() (*Cli, error) {
 	if token == "" {
 		return nil, errors.New("GH_TOKEN variable empty")
 	}
-	repo := getEnv("GH_REPO", "gh-activist")
+	repo := getEnv("GH_REPO", "gh-activist-target")
 	file := getEnv("GH_FILE", "commit.txt")
 	ghClient := gh.NewClient(user, token, repo, file)
 
