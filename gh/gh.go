@@ -39,32 +39,36 @@ func (c *Client) Commit(message, content string) error {
 		return err
 	}
 
+	fmt.Printf("%+v\n", reqBodyBytes)
+
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(reqBodyBytes))
 	req.Header.Set("Authorization", c.AuthHeaderValue)
 	if err != nil {
 		return err
 	}
 
-	_, err = c.HTTPClient.Do(req)
+	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return err
 	}
+
+	fmt.Printf("%+v\n", resp)
 
 	return nil
 }
 
 type commitRequest struct {
-	message string
-	content string
+	Message string
+	Content string
 }
 
 func newCommitRequest(message, content string) (*commitRequest, error) {
 	var errMsgs []string
 	if message == "" {
-		errMsgs = append(errMsgs, "message is empty")
+		errMsgs = append(errMsgs, "Message is empty")
 	}
 	if content == "" {
-		errMsgs = append(errMsgs, "content is empty")
+		errMsgs = append(errMsgs, "Content is empty")
 	}
 	if len(errMsgs) != 0 {
 		errMsg := strings.Join(errMsgs, ", ")
@@ -72,7 +76,7 @@ func newCommitRequest(message, content string) (*commitRequest, error) {
 	}
 
 	return &commitRequest{
-		message: message,
-		content: base64.StdEncoding.EncodeToString([]byte(content)),
+		Message: message,
+		Content: base64.StdEncoding.EncodeToString([]byte(content)),
 	}, nil
 }
