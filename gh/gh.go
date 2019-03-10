@@ -11,25 +11,25 @@ import (
 )
 
 type Client struct {
-	httpClient      *http.Client
-	user            string
-	authHeaderValue string
-	repo            string
-	file            string
+	HTTPClient      *http.Client
+	User            string
+	AuthHeaderValue string
+	Repo            string
+	File            string
 }
 
 func NewClient(user, token, repo, file string) *Client {
 	return &Client{
-		httpClient:      http.DefaultClient,
-		user:            user,
-		authHeaderValue: fmt.Sprintf("token %s", token),
-		repo:            repo,
-		file:            file,
+		HTTPClient:      http.DefaultClient,
+		User:            user,
+		AuthHeaderValue: fmt.Sprintf("token %s", token),
+		Repo:            repo,
+		File:            file,
 	}
 }
 
 func (c *Client) Commit(message, content string) error {
-	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/contents/%s", c.user, c.repo, c.file)
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/contents/%s", c.User, c.Repo, c.File)
 	reqBody, err := newCommitRequest(message, content)
 	if err != nil {
 		return err
@@ -40,12 +40,12 @@ func (c *Client) Commit(message, content string) error {
 	}
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(reqBodyBytes))
-	req.Header.Set("Authorization", c.authHeaderValue)
+	req.Header.Set("Authorization", c.AuthHeaderValue)
 	if err != nil {
 		return err
 	}
 
-	_, err = c.httpClient.Do(req)
+	_, err = c.HTTPClient.Do(req)
 	if err != nil {
 		return err
 	}

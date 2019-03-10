@@ -33,7 +33,7 @@ func New() (*Cli, error) {
 		return nil, errors.New("GH_TOKEN variable empty")
 	}
 	repo := getEnv("GH_REPO", "gh-activist")
-	file := getEnv("GH_REPO", "commit.txt")
+	file := getEnv("GH_FILE", "commit.txt")
 	ghClient := gh.NewClient(user, token, repo, file)
 
 	logFile := getEnv("LOG_FILE", "")
@@ -55,5 +55,6 @@ func (c *Cli) Run() int {
 		return CommitError
 	}
 
+	c.logger.Printf("commited to repository: %s, file: %s\n", c.ghClient.Repo, c.ghClient.File)
 	return Success
 }

@@ -28,7 +28,7 @@ func TestNewClient(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			c := NewClient(test.user, test.token, test.repo, test.file)
-			assert.Equal(t, test.expectedAuthHeaderValue, c.authHeaderValue)
+			assert.Equal(t, test.expectedAuthHeaderValue, c.AuthHeaderValue)
 		})
 	}
 }
